@@ -2,6 +2,7 @@ package com.mycompany.ordersystem.controller;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,12 +12,32 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
-@WebServlet(name = "customerServlet", urlPatterns = {"/customer"}, loadOnStartup = 1)
+@WebServlet(
+        name = "customerServlet",
+        urlPatterns = {"/customer"},
+        loadOnStartup = 1,
+        initParams = {
+                @WebInitParam(name = "driverClassName", value = "com.mysql.jdbc.Driver"),
+                @WebInitParam(name = "url", value = "jdbc:mysql://localhost:3306/order_system"),
+                @WebInitParam(name = "username", value = "realdev"),
+                @WebInitParam(name = "password", value = "1234")
+        }
+
+)
 public class CustomerServlet extends HttpServlet {
+
+    private String driverClassName = null;
+    private String url = null;
+    private String username = null;
+    private String password = null;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         System.out.println(config.getServletName() + " 서블릿이 시작되었습니다.");
+        driverClassName = config.getInitParameter("driverClassName");
+        url = config.getInitParameter("url");
+        username = config.getInitParameter("username");
+        password = config.getInitParameter("password");
     }
 
     @Override
@@ -48,7 +69,13 @@ public class CustomerServlet extends HttpServlet {
                 .append("주소 : ").append(address).append("<br>\n")
                 .append("이메일 : ").append(email).append("<br>\n")
                 .append("<p>\n")
-                .append("<a href=\"customer\">고객 정보 입력</a>\n")
+                .append("<a href=\"customer\">고객정보 입력</a>\n")
+                .append("<h3>데이터베이스 설정</h3>\n")
+                .append("driverClassName : " )
+                .append(driverClassName).append("<br/>\n")
+                .append("url : ").append(url).append("<br/>\n")
+                .append("username : ").append(username).append("<br/>\n")
+                .append("password : ").append(password).append("<br/>\n")
                 .append("</body>\n")
                 .append("</html>");
     }

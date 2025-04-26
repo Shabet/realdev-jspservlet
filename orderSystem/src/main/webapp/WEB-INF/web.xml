@@ -8,6 +8,22 @@
     <servlet-name>customerServlet</servlet-name>
     <servlet-class>com.mycompany.ordersystem.controller.CustomerServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>driverClassName</param-name>
+      <param-value>com.mysql.jdbc.Driver</param-value>
+    </init-param>
+    <init-param>
+      <param-name>url</param-name>
+      <param-value>jdbc:mysql://localhost:3306/order_system</param-value>
+    </init-param>
+    <init-param>
+      <param-name>username</param-name>
+      <param-value>realdev</param-value>
+    </init-param>
+    <init-param>
+      <param-name>password</param-name>
+      <param-value>1234</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>customerServlet</servlet-name>
