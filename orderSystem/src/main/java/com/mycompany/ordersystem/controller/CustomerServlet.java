@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 @WebServlet(name = "customerServlet", urlPatterns = {"/customer"}, loadOnStartup = 1)
 public class CustomerServlet extends HttpServlet {
@@ -24,9 +25,45 @@ public class CustomerServlet extends HttpServlet {
     }
 
     @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("CustomerServlet.doPost");
+
+        String name = request.getParameter("name");
+        String address = request.getParameter("address");
+        String email = request.getParameter("email");
+        System.out.printf("이름 : %s, 주소 : %s, 이메일 : %s 고객이 등록되었습니다.\n", name, address, email);
+
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter writer = response.getWriter();
+        writer.append("<!DOCTYPE html>\n")
+                .append("<html>\n")
+                .append("<head>\n")
+                .append("<meta charset=\"utf-8\"/>\n")
+                .append("<title>고객 등록 정보</title>\n")
+                .append("</head>\n")
+                .append("<body>\n")
+                .append("<h1>고객 등록 정보</h1>\n")
+                .append("이름 : ").append(name).append("<br>\n")
+                .append("주소 : ").append(address).append("<br>\n")
+                .append("이메일 : ").append(email).append("<br>\n")
+                .append("<p>\n")
+                .append("<a href=\"customer\">고객 정보 입력</a>\n")
+                .append("</body>\n")
+                .append("</html>");
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("CustomerServlet.doGet");
+
+        for(Enumeration<String> e = request.getHeaderNames(); e.hasMoreElements();) {
+            String header = e.nextElement();
+            System.out.println(header + " : " + request.getHeader(header));
+        }
+
         response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
         writer.append("<!DOCTYPE html>\n")
                 .append("<html>\n")
